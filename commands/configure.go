@@ -151,6 +151,8 @@ func (atcConfig ATCConfig) newConfig(configPath string, templateVariablesFiles [
 		failWithErrorf("failed to parse configuration file", err)
 	}
 
+	fmt.Println("New Config Raw: %+v", newConfig)
+
 	return newConfig, configFile
 }
 
@@ -301,6 +303,15 @@ func diff(existingConfig atc.Config, newConfig atc.Config) {
 
 		for _, diff := range jobDiffs {
 			diff.WriteTo(indent, "job")
+		}
+	}
+
+	pluginDiffs := diffIndices(PluginIndex(existingConfig.Plugins), PluginIndex(newConfig.Plugins))
+	if len(pluginDiffs) > 0 {
+		fmt.Println("plugins:")
+
+		for _, diff := range pluginDiffs {
+			diff.WriteTo(indent, "pluging")
 		}
 	}
 

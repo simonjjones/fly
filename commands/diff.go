@@ -99,6 +99,21 @@ func (index ResourceIndex) FindEquivalent(obj interface{}) (interface{}, bool) {
 	return atc.ResourceConfigs(index).Lookup(name(obj))
 }
 
+type PluginIndex atc.PluginConfigs
+
+func (index PluginIndex) Slice() []interface{} {
+	slice := make([]interface{}, len(index))
+	for i, object := range index {
+		slice[i] = object
+	}
+
+	return slice
+}
+
+func (index PluginIndex) FindEquivalent(obj interface{}) (interface{}, bool) {
+	return atc.PluginConfigs(index).Lookup(name(obj))
+}
+
 func diffIndices(oldIndex Index, newIndex Index) Diffs {
 	diffs := Diffs{}
 
